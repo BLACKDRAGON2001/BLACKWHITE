@@ -51,7 +51,7 @@ let allMusic = [
     {
         name: "Slide Da Treme Melodica V2",
         artist: "DJ FNK",
-        src: "SlideDaTremeMelodica",
+        src: "SlidedaTremeMelodica",
         coverType: "Images"
     },
 
