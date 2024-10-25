@@ -49,6 +49,20 @@ let allMusic = [
     },
 
     {
+        name: "We Own It",
+        artist: "Wiz Khalifa and Two Chainz",
+        src: "WeOwnIt",
+        coverType: "Images"
+    },
+
+    {
+        name: "Go Hard or Go Home",
+        artist: "Wiz Khalifa and Iggy Azelea",
+        src: "GoHardOrGoHome",
+        coverType: "Images"
+    },
+
+    {
         name: "Slide Da Treme Melodica V2",
         artist: "DJ FNK",
         src: "SlidedaTremeMelodica",
