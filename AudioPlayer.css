@@ -104,7 +104,7 @@ video {
 .progress-area{
   height: 6px;
   width: 100%;
-  border-radius: 50px;
+  border-radius: 100px;
   background: black;
   cursor: pointer;
 }
@@ -124,7 +124,6 @@ video {
   top: 50%;
   right: -5px;
   z-index: 2;
-  opacity: 0;
   pointer-events: none;
   transform: translateY(-50%);
   background: inherit;
