@@ -76,6 +76,7 @@ video {
   width: 100%;
   height: 380px;
   object-fit: cover;
+  display: block;
 }
 .song-details{
   text-align: center;
@@ -299,4 +300,30 @@ ul li.playing{
 
 .Dark {
   color: black;
+}
+
+.Major-Container {
+  position: relative;
+}
+
+.overlay-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  display: none; /* Hidden by default */
+  transform: translate(16%, 16%);
+  border: 8px solid black;
+  box-sizing: border-box;
+}
+
+/* Add these styles to your CSS file */
+.muted {
+  background-image: url('path/to/muted-icon.png'); /* Path to your mute icon */
+  /* You can add more styles as needed */
+}
+
+.unmuted {
+  background-image: url('path/to/unmuted-icon.png'); /* Path to your unmute icon */
+  /* You can add more styles as needed */
 }

@@ -6,15 +6,20 @@ const playPauseBtn = wrapper.querySelector(".play-pause");
 const prevBtn = wrapper.querySelector("#prev");
 const nextBtn = wrapper.querySelector("#next");
 const mainAudio = wrapper.querySelector("#main-audio");
+const videoAd = wrapper.querySelector("#video");
 const progressArea = wrapper.querySelector(".progress-area");
 const progressBar = progressArea.querySelector(".progress-bar");
 const musicList = wrapper.querySelector(".music-list");
 const moreMusicBtn = wrapper.querySelector("#more-music");
 const closeMoreMusicBtn = musicList.querySelector("#close");
+const modeToggle = document.getElementById("modeToggle");
+const muteButton = document.getElementById("muteButton");
 
-let musicIndex = 1; // Start with the first song in the array
+let musicIndex = 1;
 let isMusicPaused = true;
 let isShuffleMode = false;
+let originalOrder = [...allMusic]; // Store the original order
+let shuffledOrder = []; // To store the shuffled order
 
 document.addEventListener("DOMContentLoaded", () => {
   const storedMusicIndex = localStorage.getItem("musicIndex");
@@ -27,69 +32,112 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     loadMusic(musicIndex);
   }
+  populateMusicList(originalOrder); // Populate the original order on load
   updatePlayingSong();
 });
 
-function loadMusic(indexNumb) {
-  const music = allMusic[indexNumb - 1];
+// Function to load music
+function loadMusic(index) {
+  const music = isShuffleMode ? shuffledOrder[index - 1] : originalOrder[index - 1];
   musicName.innerText = music.name;
   musicArtist.innerText = music.artist;
 
   const { coverType = 'Images', src, type = 'jpg' } = music;
   coverArea.innerHTML = ''; // Clear the cover area
 
-  if (coverType === 'video') {
-    const videoElement = document.createElement('video');
-    videoElement.src = `Videos/${src}.${type}`;
-    videoElement.controls = true;
-    videoElement.autoplay = true;
-    videoElement.loop = true;
-    coverArea.appendChild(videoElement);
-  } else {
-    const imgElement = document.createElement('img');
-    imgElement.src = `Images/${src}.${type}`;
-    imgElement.alt = music.name;
-    coverArea.appendChild(imgElement);
-  }
+  const mediaElement = coverType === 'video' 
+    ? createVideoElement(src, type) 
+    : createImageElement(src, type);
 
+  coverArea.appendChild(mediaElement);
   mainAudio.src = `Audio/${src}.mp3`;
+  videoAd.src = `Videos/${src}.mp4`;
 }
 
+// Functions to create video and image elements
+function createVideoElement(src, type) {
+  const videoElement = document.createElement('video');
+  videoElement.src = `Videos/${src}.${type}`;
+  videoElement.controls = true;
+  videoElement.autoplay = true;
+  videoElement.loop = true;
+  return videoElement;
+}
+
+function createImageElement(src, type) {
+  const imgElement = document.createElement('img');
+  imgElement.src = `Images/${src}.${type}`;
+  imgElement.alt = musicName.innerText;
+  return imgElement;
+}
+
+// Functions to play and pause music
 function playMusic() {
   wrapper.classList.add("paused");
   playPauseBtn.querySelector("i").innerText = "pause";
   mainAudio.play();
   isMusicPaused = false;
   localStorage.setItem("isMusicPaused", false);
+  toggleVideoDisplay(false);
 }
 
 function pauseMusic() {
-  wrapper.classList.remove("paused");
-  playPauseBtn.querySelector("i").innerText = "play_arrow";
-  mainAudio.pause();
-  isMusicPaused = true;
-  localStorage.setItem("isMusicPaused", true);
+    wrapper.classList.remove("paused");
+    playPauseBtn.querySelector("i").innerText = "play_arrow";
+    mainAudio.pause();
+    isMusicPaused = true;
+    localStorage.setItem("isMusicPaused", true);
+    toggleVideoDisplay(true);
+  
+    // Mute the video audio when the music is paused
+    const video = document.getElementById("video");
+    if (video) {
+      video.muted = true; // Mute the video audio
+    }
+}
+  
+
+function toggleVideoDisplay(show) {
+  const video = document.getElementById("video");
+  video.style.display = show ? "block" : "none";
+  if (show) {
+    video.play();
+  } else {
+    video.pause();
+  }
 }
 
-function prevMusic() {
-  musicIndex = (musicIndex > 1) ? musicIndex - 1 : allMusic.length;
+// Function to change music
+function changeMusic(direction) {
+  if (isShuffleMode) {
+    musicIndex = (musicIndex + direction + shuffledOrder.length - 1) % shuffledOrder.length + 1;
+  } else {
+    musicIndex = (musicIndex + direction + originalOrder.length - 1) % originalOrder.length + 1;
+  }
+  
   loadMusic(musicIndex);
   playMusic();
+  muteVideo();
 }
 
-function nextMusic() {
-  musicIndex = (musicIndex < allMusic.length) ? musicIndex + 1 : 1;
-  loadMusic(musicIndex);
-  playMusic();
+// Function to mute video
+function muteVideo() {
+  const video = document.getElementById("video");
+  if (video) {
+    video.muted = true; // Mute the video audio
+  }
 }
 
+// Play/Pause Button Event Listener
 playPauseBtn.addEventListener("click", () => {
   isMusicPaused ? playMusic() : pauseMusic();
 });
 
-prevBtn.addEventListener("click", prevMusic);
-nextBtn.addEventListener("click", nextMusic);
+// Previous/Next Button Event Listeners
+prevBtn.addEventListener("click", () => changeMusic(-1));
+nextBtn.addEventListener("click", () => changeMusic(1));
 
+// Update progress bar
 mainAudio.addEventListener("timeupdate", (e) => {
   const { currentTime, duration } = e.target;
   progressBar.style.width = `${(currentTime / duration) * 100}%`;
@@ -102,9 +150,9 @@ mainAudio.addEventListener("timeupdate", (e) => {
     const totalMin = Math.floor(duration / 60);
     const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
     wrapper.querySelector(".max-duration").innerText = `${totalMin}:${totalSec}`;
-  }
-});
+}});
 
+// Progress bar click event
 progressArea.addEventListener("click", (e) => {
   const clickedOffsetX = e.offsetX;
   const songDuration = mainAudio.duration;
@@ -112,10 +160,10 @@ progressArea.addEventListener("click", (e) => {
   playMusic();
 });
 
+// Repeat and Shuffle Button Event Listener
 const repeatBtn = wrapper.querySelector("#repeat-plist");
 repeatBtn.addEventListener("click", () => {
-  const currentMode = repeatBtn.innerText;
-  switch (currentMode) {
+  switch (repeatBtn.innerText) {
     case "repeat":
       repeatBtn.innerText = "repeat_one";
       repeatBtn.setAttribute("title", "Song looped");
@@ -124,33 +172,39 @@ repeatBtn.addEventListener("click", () => {
       repeatBtn.innerText = "shuffle";
       repeatBtn.setAttribute("title", "Playback shuffled");
       isShuffleMode = true;
+
+      // Shuffle the order and update musicIndex
+      shuffledOrder = [...originalOrder].sort(() => Math.random() - 0.5);
+      musicIndex = 1; // Reset to first song in shuffled order
+      loadMusic(musicIndex);
+      populateMusicList(shuffledOrder); // Populate with shuffled order
+      playMusic();
       break;
     case "shuffle":
       repeatBtn.innerText = "repeat";
       repeatBtn.setAttribute("title", "Playlist looped");
       isShuffleMode = false;
+
+      musicIndex = 1; // Reset to first song in original order
+      loadMusic(musicIndex);
+      populateMusicList(originalOrder); // Populate with original order
+      playMusic();
       break;
   }
 });
 
+// Handle end of the song
 mainAudio.addEventListener("ended", () => {
-  switch (repeatBtn.innerText) {
-    case "repeat":
-      nextMusic();
-      break;
-    case "repeat_one":
-      mainAudio.currentTime = 0;
-      loadMusic(musicIndex);
-      playMusic();
-      break;
-    case "shuffle":
-      musicIndex = Math.floor(Math.random() * allMusic.length) + 1;
-      loadMusic(musicIndex);
-      playMusic();
-      break;
+  if (isShuffleMode) {
+    musicIndex = Math.floor(Math.random() * shuffledOrder.length) + 1;
+  } else {
+    musicIndex = (musicIndex % originalOrder.length) + 1; // Loop to next song
   }
+  loadMusic(musicIndex);
+  playMusic();
 });
 
+// Show/Hide Music List
 moreMusicBtn.addEventListener("click", () => {
   musicList.classList.toggle("show");
 });
@@ -159,43 +213,48 @@ closeMoreMusicBtn.addEventListener("click", () => {
   musicList.classList.remove("show");
 });
 
+// Populate music list
 const ulTag = wrapper.querySelector("ul");
 
-allMusic.forEach((music, i) => {
-  const liTag = document.createElement("li");
-  liTag.setAttribute("li-index", i + 1);
+function populateMusicList(musicArray) {
+  ulTag.innerHTML = ""; // Clear the existing list
+  musicArray.forEach((music, i) => {
+    const liTag = document.createElement("li");
+    liTag.setAttribute("li-index", i + 1);
 
-  liTag.innerHTML = `
-    <div class="row">
-      <span>${music.name}</span>
-      <p>${music.artist}</p>
-    </div>
-    <span id="${music.src}" class="audio-duration">3:40</span>
-    <audio class="${music.src}" src="songs/${music.src}.mp3"></audio>
-  `;
+    liTag.innerHTML = `
+      <div class="row">
+        <span>${music.name}</span>
+        <p>${music.artist}</p>
+      </div>
+      <span id="${music.src}" class="audio-duration">3:40</span>
+      <audio class="${music.src}" src="Audio/${music.src}.mp3"></audio>
+    `;
 
-  ulTag.appendChild(liTag);
+    ulTag.appendChild(liTag);
 
-  const liAudioDurationTag = ulTag.querySelector(`#${music.src}`);
-  const liAudioTag = ulTag.querySelector(`.${music.src}`);
-  liAudioTag.addEventListener("loadeddata", () => {
-    const duration = liAudioTag.duration;
-    const totalMin = Math.floor(duration / 60);
-    const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
-    liAudioDurationTag.innerText = `${totalMin}:${totalSec}`;
-    liAudioDurationTag.setAttribute("t-duration", `${totalMin}:${totalSec}`);
+    const liAudioDurationTag = ulTag.querySelector(`#${music.src}`);
+    const liAudioTag = ulTag.querySelector(`.${music.src}`);
+    
+    liAudioTag.addEventListener("loadeddata", () => {
+      const duration = liAudioTag.duration;
+      const totalMin = Math.floor(duration / 60);
+      const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
+      liAudioDurationTag.innerText = `${totalMin}:${totalSec}`;
+      liAudioDurationTag.setAttribute("t-duration", `${totalMin}:${totalSec}`);
+    });
+
+    liTag.addEventListener("click", () => {
+      musicIndex = i + 1;
+      loadMusic(musicIndex);
+      playMusic();
+    });
   });
+}
 
-  liTag.addEventListener("click", () => {
-    musicIndex = i + 1;
-    loadMusic(musicIndex);
-    playMusic();
-  });
-});
-
+// Update playing song in the list
 function updatePlayingSong() {
   const allLiTags = ulTag.querySelectorAll("li");
-
   allLiTags.forEach(liTag => {
     const audioTag = liTag.querySelector(".audio-duration");
     liTag.classList.toggle("playing", liTag.getAttribute("li-index") == musicIndex);
@@ -203,8 +262,62 @@ function updatePlayingSong() {
   });
 }
 
-const modeToggle = document.getElementById("modeToggle");
+// Dark mode toggle
 modeToggle.addEventListener("click", () => {
-  wrapper.classList.toggle("dark-mode");
-  document.getElementById("fontawesome-icons").classList.toggle("Dark");
+    const isDarkMode = wrapper.classList.toggle("dark-mode");
+    document.getElementById("fontawesome-icons").classList.toggle("Dark");
+  
+    // Change background color based on the mode
+    if (isDarkMode) {
+      // Dark mode is active
+      document.body.style.backgroundColor = "white"; // Change to dark background
+    } else {
+      // Dark mode is inactive
+      document.body.style.backgroundColor = "black"; // Change to white background
+    }
+});
+  
+
+// Mute button
+let isMuted = false; // Track mute state
+
+muteButton.addEventListener("click", () => {
+  const video = document.getElementById("video");
+  const isAudioPlaying = !isMusicPaused; // Check if the audio is currently playing
+
+  if (video) {
+    if (isAudioPlaying && !isMuted) {
+      // If music is playing and the video is not muted, disable the button
+      muteButton.disabled = true; // Disable the mute button
+      return; // Exit the function early
+    }
+
+    video.muted = !video.muted; // Mute or unmute video
+    isMuted = video.muted; // Update mute state
+
+    // Toggle button classes instead of changing inner text
+    if (isMuted) {
+      muteButton.classList.add("muted"); // Add a class for muted state
+      muteButton.classList.remove("unmuted"); // Remove the unmuted class
+    } else {
+      muteButton.classList.remove("muted"); // Remove the muted class
+      muteButton.classList.add("unmuted"); // Add the unmuted class
+    }
+  }
+});
+
+// Enable the mute button when music is paused
+mainAudio.addEventListener("pause", () => {
+  muteButton.disabled = false; // Enable the mute button when music is paused
+  pauseMusic();
+});
+
+mainAudio.addEventListener("play", () => {
+  muteButton.disabled = true; // Enable the mute button when music is paused
+  playMusic();
+});
+
+// Enable the button when the video ends
+video.addEventListener("ended", () => {
+  muteButton.disabled = false; // Enable the button when the video ends
 });

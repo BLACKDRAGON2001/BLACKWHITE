@@ -3,7 +3,7 @@ let allMusic = [
         name: "Die For You",
         artist: "The Weeknd and Ariana Grande",
         src: "DieForYou",
-        coverType: "Images"
+        coverType: "Images",
     },
 
     {
@@ -24,6 +24,13 @@ let allMusic = [
         name: "Mantra",
         artist: "JENNIE",
         src: "Mantra",
+        coverType: "Images"
+    },
+
+    {
+        name: "One Dance",
+        artist: "Drake",
+        src: "OneDance",
         coverType: "Images"
     },
 
@@ -94,6 +101,13 @@ let allMusic = [
         name: "If We Being Real",
         artist: "Yeat Music",
         src: "IfWeBeingReal",
+        coverType: "Images"
+    },
+
+    {
+        name: "II Padrino",
+        artist: "DJ Dark",
+        src: "IIPadrino",
         coverType: "Images"
     },
 
