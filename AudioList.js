@@ -154,6 +154,13 @@ let allMusic = [
     },
 
     {
+        name: "Love Me Like You Do",
+        artist: "Ellie Golding",
+        src: "LoveMeLikeYouDo",
+        coverType: "Images"
+    },
+
+    {
         name: "Cheap Thrills",
         artist: "SIA",
         src: "CheapThrills",
