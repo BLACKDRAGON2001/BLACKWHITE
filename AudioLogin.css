@@ -64,6 +64,7 @@ body{
     outline: none;
     font-family: monospace;
     font-weight: bold;
+    caret-color: black;
 }
 
 ::placeholder{
