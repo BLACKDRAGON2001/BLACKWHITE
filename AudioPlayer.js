@@ -14,6 +14,7 @@ const moreMusicBtn = wrapper.querySelector("#more-music");
 const closeMoreMusicBtn = musicList.querySelector("#close");
 const modeToggle = document.getElementById("modeToggle");
 const muteButton = document.getElementById("muteButton");
+const header = document.querySelector(".row")
 
 let musicIndex = 1;
 let isMusicPaused = true;
@@ -271,9 +272,11 @@ modeToggle.addEventListener("click", () => {
     if (isDarkMode) {
       // Dark mode is active
       document.body.style.backgroundColor = "white"; // Change to dark background
+      audiolistcolourblack()
     } else {
       // Dark mode is inactive
-      document.body.style.backgroundColor = "black"; // Change to white background
+      document.body.style.backgroundColor = "black";
+      audiolistcolourwhite() // Change to white background
     }
 });
   
@@ -321,3 +324,27 @@ mainAudio.addEventListener("play", () => {
 video.addEventListener("ended", () => {
   muteButton.disabled = false; // Enable the button when the video ends
 });
+
+function audiolistcolourblack() {
+  const ul = document.querySelector('ul');
+  const listItems = ul.querySelectorAll('li');
+  listItems.forEach(item => {
+    item.style.color = 'white';
+    item.style.borderBottom = '3px solid white';
+  });
+  musicList.style.backgroundColor = "black";
+  closeMoreMusicBtn.style.color = "white"
+  header.style.color = "white"
+}
+
+function audiolistcolourwhite() {
+  const ul = document.querySelector('ul');
+  const listItems = ul.querySelectorAll('li');
+  listItems.forEach(item => {
+    item.style.color = 'black';
+    item.style.borderBottom = '3px solid black';
+  });
+  musicList.style.backgroundColor = "white";
+  closeMoreMusicBtn.style.color = "black"
+  header.style.color = "black"
+}

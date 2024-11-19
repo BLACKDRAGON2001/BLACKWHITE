@@ -16,7 +16,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: white;
+    background: black;
     user-select: none;
 }
 
@@ -64,6 +64,7 @@ body{
     outline: none;
     font-family: monospace;
     font-weight: bold;
+    caret-color: black;
 }
 
 ::placeholder{
