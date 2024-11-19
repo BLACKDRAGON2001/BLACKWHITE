@@ -272,11 +272,11 @@ modeToggle.addEventListener("click", () => {
     if (isDarkMode) {
       // Dark mode is active
       document.body.style.backgroundColor = "white"; // Change to dark background
-      audiolistcolourblack()
+      listcolourblack()
     } else {
       // Dark mode is inactive
       document.body.style.backgroundColor = "black";
-      audiolistcolourwhite() // Change to white background
+      listcolourwhite() // Change to white background
     }
 });
   
@@ -325,7 +325,7 @@ video.addEventListener("ended", () => {
   muteButton.disabled = false; // Enable the button when the video ends
 });
 
-function audiolistcolourblack() {
+function listcolourblack() {
   const ul = document.querySelector('ul');
   const listItems = ul.querySelectorAll('li');
   listItems.forEach(item => {
@@ -337,7 +337,7 @@ function audiolistcolourblack() {
   header.style.color = "white"
 }
 
-function audiolistcolourwhite() {
+function listcolourwhite() {
   const ul = document.querySelector('ul');
   const listItems = ul.querySelectorAll('li');
   listItems.forEach(item => {
