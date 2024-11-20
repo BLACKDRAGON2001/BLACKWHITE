@@ -61,11 +61,12 @@ document.addEventListener("DOMContentLoaded", checkLoginStatus);
 
 function refreshPage() {
     location.reload();
+    document.body.style.backgroundColor = "white";
 }
 
 document.getElementById("title").addEventListener("click", function() {
     document.getElementById("HomePage").style.display = "none";
     document.getElementById("LoginPage").style.display = "block";
-    localStorage.removeItem("LoginTime")
-    refreshPage()
+    localStorage.removeItem("LoginTime");
+    refreshPage();
 });
