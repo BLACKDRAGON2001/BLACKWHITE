@@ -16,7 +16,7 @@ function clearInputFields() {
 // Hardcoded credentials for demonstration
 const correctUsername = "Admin";
 const correctPassword = "a";
-const LoginTimeout = 25 * 60 * 1000; // 25 minutes in milliseconds
+const LoginTimeout = 50 * 60 * 1000; // 50 minutes in milliseconds
 
 function checkLoginStatus() {
     const LoginTime = localStorage.getItem("LoginTime");
@@ -61,12 +61,13 @@ document.addEventListener("DOMContentLoaded", checkLoginStatus);
 
 function refreshPage() {
     location.reload();
-    document.body.style.backgroundColor = "white";
 }
 
 document.getElementById("title").addEventListener("click", function() {
     document.getElementById("HomePage").style.display = "none";
     document.getElementById("LoginPage").style.display = "block";
     localStorage.removeItem("LoginTime");
+    document.body.style.backgroundColor = "white";
+    clearInputFields();
     refreshPage();
 });
