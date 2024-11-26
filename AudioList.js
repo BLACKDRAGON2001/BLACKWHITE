@@ -119,6 +119,13 @@ let allMusic = [
     },
 
     {
+        name: "Impossible",
+        artist: "James Arthur",
+        src: "Impossible",
+        coverType: "Images"
+    },
+
+    {
         name: "Shameless",
         artist: "Camilla Cabello",
         src: "Shameless",
