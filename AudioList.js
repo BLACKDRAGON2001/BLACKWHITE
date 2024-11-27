@@ -189,6 +189,13 @@ let allMusic = [
     },
 
     {
+        name: "Never Enough",
+        artist: "Loren Allred",
+        src: "NeverEnough",
+        coverType: "Images"
+    },
+
+    {
         name: "Chandelier",
         artist: "Sia",
         src: "Chandelier",
