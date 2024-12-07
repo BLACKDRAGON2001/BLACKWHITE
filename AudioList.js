@@ -28,6 +28,13 @@ let allMusic = [
     },
 
     {
+        name: "Moola",
+        artist: "Eric Bellinger and KiD",
+        src: "Moola",
+        coverType: "Images"
+    },
+
+    {
         name: "One Dance",
         artist: "Drake",
         src: "OneDance",
@@ -101,6 +108,13 @@ let allMusic = [
         name: "If We Being Real",
         artist: "Yeat Music",
         src: "IfWeBeingReal",
+        coverType: "Images"
+    },
+
+    {
+        name: "Bounce",
+        artist: "Iggy Azalea",
+        src: "Bounce",
         coverType: "Images"
     },
 
