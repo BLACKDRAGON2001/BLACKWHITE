@@ -210,6 +210,20 @@ let allMusic = [
     },
 
     {
+        name: "Unstoppable",
+        artist: "Sia",
+        src: "Unstoppable",
+        coverType: "Images"
+    },
+
+    {
+        name: "Arms Around You",
+        artist: "Lil Pump and Maluma",
+        src: "ArmsAroundYou",
+        coverType: "Images"
+    },
+
+    {
         name: "Living Life in the Night",
         artist: "Cheriimoya and Sierra",
         src: "LivingLifeInTheNight",
