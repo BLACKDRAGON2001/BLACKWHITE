@@ -105,6 +105,13 @@ let allMusic = [
     },
 
     {
+        name: "Mask Off",
+        artist: "Future",
+        src: "MaskOff",
+        coverType: "Images"
+    },
+
+    {
         name: "II Padrino",
         artist: "DJ Dark",
         src: "IIPadrino",
