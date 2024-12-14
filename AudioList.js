@@ -168,6 +168,13 @@ let allMusic = [
     },
 
     {
+        name: "Not Fair",
+        artist: "Kid Laroi and Corbin",
+        src: "NotFair",
+        coverType: "Images"
+    },
+
+    {
         name: "Love Me Like You Do",
         artist: "Ellie Golding",
         src: "LoveMeLikeYouDo",
