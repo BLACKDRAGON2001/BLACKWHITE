@@ -98,6 +98,13 @@ let allMusic = [
     },
 
     {
+        name: "Dirty",
+        artist: "KSI and Billie Eilish",
+        src: "Dirty",
+        coverType: "Images"
+    },
+
+    {
         name: "If We Being Real",
         artist: "Yeat Music",
         src: "IfWeBeingReal",
@@ -136,6 +143,13 @@ let allMusic = [
         name: "Shameless",
         artist: "Camilla Cabello",
         src: "Shameless",
+        coverType: "Images"
+    },
+
+    {
+        name: "Infected",
+        artist: "Sickick",
+        src: "Infected",
         coverType: "Images"
     },
 
