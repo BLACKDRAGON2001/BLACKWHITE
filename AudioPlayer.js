@@ -258,7 +258,7 @@ function updatePlayingSong() {
   const allLiTags = ulTag.querySelectorAll("li");
   allLiTags.forEach(liTag => {
     const audioTag = liTag.querySelector(".audio-duration");
-    liTag.classList.toggle("playing", liTag.getAttribute("li-index") == musicIndex);
+    liTag.classList.toggle("playing", liTag.getAttribute("li-index") == musicIndex-1);
     audioTag.innerText = liTag.classList.contains("playing") ? "Playing" : audioTag.getAttribute("t-duration");
   });
 }

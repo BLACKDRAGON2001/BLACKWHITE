@@ -100,7 +100,7 @@ let allMusic = [
     {
         name: "Dirty",
         artist: "KSI and Billie Eilish",
-        src: "Dirty",
+        src: "Dirtyy",
         coverType: "Images"
     },
 
