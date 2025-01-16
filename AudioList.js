@@ -182,9 +182,9 @@ let allMusic = [
     },
 
     {
-        name: "Not Fair",
-        artist: "Kid Laroi and Corbin",
-        src: "NotFair",
+        name: "Often",
+        artist: "The Weeknd",
+        src: "Often",
         coverType: "Images"
     },
 
