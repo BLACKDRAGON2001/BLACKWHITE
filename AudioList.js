@@ -77,6 +77,13 @@ let allMusic = [
     },
 
     {
+        name: "Blah",
+        artist: "VN",
+        src: "Blah",
+        coverType: "Images"
+    },
+
+    {
         name: "Empire",
         artist: "Ogryzek",
         src: "Empire",
@@ -185,6 +192,13 @@ let allMusic = [
         name: "Often",
         artist: "The Weeknd",
         src: "Often",
+        coverType: "Images"
+    },
+
+    {
+        name: "Moth To A Flame",
+        artist: "The Weeknd",
+        src: "MothToAFlame",
         coverType: "Images"
     },
 
