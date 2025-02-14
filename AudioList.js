@@ -77,6 +77,13 @@ let allMusic = [
     },
 
     {
+        name: "Dare",
+        artist: "DJ",
+        src: "Dare",
+        coverType: "Images"
+    },
+
+    {
         name: "Blah",
         artist: "VN",
         src: "Blah",
@@ -94,6 +101,27 @@ let allMusic = [
         name: "Glory",
         artist: "Ogryzek",
         src: "Glory",
+        coverType: "Images"
+    },
+
+    {
+        name: "Where We Started",
+        artist: "NCS",
+        src: "WhereWeStarted",
+        coverType: "Images"
+    },
+
+    {
+        name: "Diamonds",
+        artist: "Rihanna",
+        src: "Diamonds",
+        coverType: "Images"
+    },
+
+    {
+        name: "Greatest",
+        artist: "Sia",
+        src: "Greatest",
         coverType: "Images"
     },
 
@@ -182,6 +210,13 @@ let allMusic = [
     },
 
     {
+        name: "Who I Am",
+        artist: "Alan Walker",
+        src: "WhoIAm",
+        coverType: "Images"
+    },
+
+    {
         name: "Da Da Da",
         artist: "Tanir and Tyomcha Jarico Remix",
         src: "DaDaDa",
@@ -199,6 +234,13 @@ let allMusic = [
         name: "Moth To A Flame",
         artist: "The Weeknd",
         src: "MothToAFlame",
+        coverType: "Images"
+    },
+
+    {
+        name: "Die With A Smile",
+        artist: "Bruno Mars and Lady Gaga",
+        src: "DieWithASmile",
         coverType: "Images"
     },
 
