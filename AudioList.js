@@ -77,6 +77,13 @@ let allMusic = [
     },
 
     {
+        name: "Matushka",
+        artist: "Satirin",
+        src: "Matushka",
+        coverType: "Images"
+    },
+
+    {
         name: "Dare",
         artist: "DJ",
         src: "Dare",
@@ -220,6 +227,13 @@ let allMusic = [
         name: "Da Da Da",
         artist: "Tanir and Tyomcha Jarico Remix",
         src: "DaDaDa",
+        coverType: "Images"
+    },
+
+    {
+        name: "Da Da Da",
+        artist: "Douyin",
+        src: "DaDaDa2",
         coverType: "Images"
     },
 
