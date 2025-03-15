@@ -112,6 +112,13 @@ let allMusic = [
     },
 
     {
+        name: "Empire",
+        artist: "Laudividni",
+        src: "Empiree",
+        coverType: "Images"
+    },
+
+    {
         name: "Where We Started",
         artist: "NCS",
         src: "WhereWeStarted",
@@ -164,6 +171,13 @@ let allMusic = [
         name: "II Padrino",
         artist: "DJ Dark",
         src: "IIPadrino",
+        coverType: "Images"
+    },
+
+    {
+        name: "Gold Rush",
+        artist: "Laudividni",
+        src: "GoldRush",
         coverType: "Images"
     },
 
