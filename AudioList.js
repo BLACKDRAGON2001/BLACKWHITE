@@ -70,6 +70,13 @@ let allMusic = [
     },
 
     {
+        name: "Slava Funk",
+        artist: "MVSTERIOUS",
+        src: "SlavaFunk",
+        coverType: "Images"
+    },
+
+    {
         name: "Slide Da Treme Melodica V2",
         artist: "DJ FNK",
         src: "SlidedaTremeMelodica",
