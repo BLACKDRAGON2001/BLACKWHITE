@@ -196,6 +196,13 @@ let allMusic = [
     },
 
     {
+        name: "Rewrite The Stars",
+        artist: "Zac Efron and Zendaya",
+        src: "RewriteTheStars",
+        coverType: "Images"
+    },
+
+    {
         name: "Shameless",
         artist: "Camilla Cabello",
         src: "Shameless",
