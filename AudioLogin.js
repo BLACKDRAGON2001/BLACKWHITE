@@ -16,27 +16,51 @@ function clearInputFields() {
 // Hardcoded credentials for demonstration
 const correctUsername = "Admin";
 const correctPassword = "a";
+const otherUsername = "Mangekyou";
+const otherPassword = "Black";
 const LoginTimeout = 50 * 60 * 1000; // 50 minutes in milliseconds
 
 function checkLoginStatus() {
-    const LoginTime = localStorage.getItem("LoginTime");
+    const homeLoginTime = localStorage.getItem("HomeLoginTime");
+    const disguiseLoginTime = localStorage.getItem("DisguiseLoginTime");
     const loginPage = document.getElementById("LoginPage");
     const homePage = document.getElementById("HomePage");
+    const disguisePage = document.getElementById("DisguisePage");
+    const currentTime = new Date().getTime();
 
-    if (LoginTime) {
-        const currentTime = new Date().getTime();
-        if (currentTime - parseInt(LoginTime) < LoginTimeout) {
-            loginPage.style.display = "none";
-            homePage.style.display = "block";
+    let isHomeValid = false;
+    let isDisguiseValid = false;
+
+    if (homeLoginTime) {
+        if (currentTime - parseInt(homeLoginTime) < LoginTimeout) {
+            isHomeValid = true;
         } else {
-            localStorage.removeItem("LoginTime");
-            loginPage.style.display = "block";
-            homePage.style.display = "none";
-            document.body.style.backgroundColor = "white";
+            localStorage.removeItem("HomeLoginTime");
         }
+    }
+
+    if (disguiseLoginTime) {
+        if (currentTime - parseInt(disguiseLoginTime) < LoginTimeout) {
+            isDisguiseValid = true;
+        } else {
+            localStorage.removeItem("DisguiseLoginTime");
+        }
+    }
+
+    if (isHomeValid) {
+        loginPage.style.display = "none";
+        homePage.style.display = "block";
+        disguisePage.style.display = "none";
+        document.body.style.backgroundColor = "black";
+    } else if (isDisguiseValid) {
+        loginPage.style.display = "none";
+        homePage.style.display = "none";
+        disguisePage.style.display = "block";
+        document.body.style.backgroundColor = "black";
     } else {
         loginPage.style.display = "block";
         homePage.style.display = "none";
+        disguisePage.style.display = "none";
         document.body.style.backgroundColor = "white";
     }
 }
@@ -46,11 +70,20 @@ document.getElementById("signinBtn").addEventListener("click", function () {
     const password = document.getElementById("password").value;
 
     if (username === correctUsername && password === correctPassword) {
-        localStorage.setItem("LoginTime", new Date().getTime());
+        localStorage.setItem("HomeLoginTime", new Date().getTime());
+        localStorage.removeItem("DisguiseLoginTime");
         document.getElementById("LoginPage").style.display = "none";
         clearInputFields();
         changeText(true);
         document.getElementById("HomePage").style.display = "block";
+        document.body.style.backgroundColor = "black";
+    } else if (username === otherUsername && password == otherPassword) {
+        localStorage.setItem("DisguiseLoginTime", new Date().getTime());
+        localStorage.removeItem("HomeLoginTime");
+        document.getElementById("LoginPage").style.display = "none";
+        clearInputFields();
+        changeText(true);
+        document.getElementById("DisguisePage").style.display = "block";
         document.body.style.backgroundColor = "black";
     } else {
         changeText(false);
@@ -66,7 +99,16 @@ function refreshPage() {
 document.getElementById("title").addEventListener("click", function() {
     document.getElementById("HomePage").style.display = "none";
     document.getElementById("LoginPage").style.display = "block";
-    localStorage.removeItem("LoginTime");
+    localStorage.removeItem("HomeLoginTime");
+    document.body.style.backgroundColor = "white";
+    clearInputFields();
+    refreshPage();
+});
+
+document.getElementById("title2").addEventListener("click", function() {
+    document.getElementById("DisguisePage").style.display = "none";
+    document.getElementById("LoginPage").style.display = "block";
+    localStorage.removeItem("DisguiseLoginTime");
     document.body.style.backgroundColor = "white";
     clearInputFields();
     refreshPage();

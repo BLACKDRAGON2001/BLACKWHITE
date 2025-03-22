@@ -1,350 +1,372 @@
-const wrapper = document.querySelector(".wrapper");
-const coverArea = wrapper.querySelector(".img-area");
-const musicName = wrapper.querySelector(".song-details .name");
-const musicArtist = wrapper.querySelector(".song-details .artist");
-const playPauseBtn = wrapper.querySelector(".play-pause");
-const prevBtn = wrapper.querySelector("#prev");
-const nextBtn = wrapper.querySelector("#next");
-const mainAudio = wrapper.querySelector("#main-audio");
-const videoAd = wrapper.querySelector("#video");
-const progressArea = wrapper.querySelector(".progress-area");
-const progressBar = progressArea.querySelector(".progress-bar");
-const musicList = wrapper.querySelector(".music-list");
-const moreMusicBtn = wrapper.querySelector("#more-music");
-const closeMoreMusicBtn = musicList.querySelector("#close");
-const modeToggle = document.getElementById("modeToggle");
-const muteButton = document.getElementById("muteButton");
-const header = document.querySelector(".row")
+// Add this to your existing test.js file
+document.getElementById("title").addEventListener("click", function() {
+  // Clear HomePage player state
+  localStorage.removeItem("musicIndex");
+  localStorage.removeItem("isMusicPaused");
+  // Existing logout logic
+  document.getElementById("HomePage").style.display = "none";
+  document.getElementById("LoginPage").style.display = "block";
+  localStorage.removeItem("LoginTime");
+  document.body.style.backgroundColor = "white";
+  clearInputFields();
+  refreshPage();
+});
 
-let musicIndex = 1;
-let isMusicPaused = true;
-let isShuffleMode = false;
-let originalOrder = [...allMusic]; // Store the original order
-let shuffledOrder = []; // To store the shuffled order
+document.getElementById("title2").addEventListener("click", function() {
+  // Clear DisguisePage player state
+  localStorage.removeItem("musicIndex2");
+  localStorage.removeItem("isMusicPaused2");
+  // Existing logout logic
+  document.getElementById("DisguisePage").style.display = "none";
+  document.getElementById("LoginPage").style.display = "block";
+  localStorage.removeItem("LoginTime");
+  document.body.style.backgroundColor = "white";
+  clearInputFields();
+  refreshPage();
+});
 
-document.addEventListener("DOMContentLoaded", () => {
-  const storedMusicIndex = localStorage.getItem("musicIndex");
-  if (storedMusicIndex) {
-    musicIndex = parseInt(storedMusicIndex, 10);
-    loadMusic(musicIndex);
-    if (localStorage.getItem("isMusicPaused") === "false") {
-      playMusic();
+class MusicPlayer {
+  constructor(suffix = '') {
+    if (!localStorage.getItem(`musicIndex${suffix}`)) {
+      this.musicIndex = 1;
+      localStorage.setItem(`musicIndex${suffix}`, 1);
     }
-  } else {
-    loadMusic(musicIndex);
+    // Configure media folders based on page
+    this.suffix = suffix;
+    this.imageFolder = suffix === '2' ? 'ImagesDisguise/' : 'Images/';
+    this.videoFolder = suffix === '2' ? 'VideosDisguise/' : 'Videos/';
+
+    // Element selectors
+    this.wrapper = document.querySelector(`#wrapper${suffix}`);
+    this.coverArea = this.wrapper.querySelector(".img-area");
+    this.musicName = this.wrapper.querySelector(".song-details .name");
+    this.musicArtist = this.wrapper.querySelector(".song-details .artist");
+    this.playPauseBtn = this.wrapper.querySelector(".play-pause");
+    this.prevBtn = this.wrapper.querySelector(`#prev${suffix}`);
+    this.nextBtn = this.wrapper.querySelector(`#next${suffix}`);
+    this.mainAudio = this.wrapper.querySelector(`#main-audio${suffix}`);
+    this.videoAd = this.wrapper.querySelector(`#video${suffix}`);
+    this.progressArea = this.wrapper.querySelector(".progress-area");
+    this.progressBar = this.progressArea.querySelector(".progress-bar");
+    this.musicList = this.wrapper.querySelector(".music-list");
+    this.moreMusicBtn = this.wrapper.querySelector(`#more-music${suffix}`);
+    this.closeMoreMusicBtn = this.musicList.querySelector(`#close${suffix}`);
+    this.modeToggle = document.getElementById(`modeToggle${suffix}`);
+    this.muteButton = document.getElementById(`muteButton${suffix}`);
+    this.header = this.wrapper.querySelector(".row");
+    this.ulTag = this.wrapper.querySelector("ul");
+    this.repeatBtn = this.wrapper.querySelector(`#repeat-plist${suffix}`);
+
+    // Player state
+    this.musicIndex = 1;
+    this.isMusicPaused = true;
+    this.isShuffleMode = false;
+    this.originalOrder = [...allMusic];
+    this.shuffledOrder = [];
+    this.isMuted = false;
+
+    this.initialize();
   }
-  populateMusicList(originalOrder); // Populate the original order on load
-  updatePlayingSong();
-});
 
-// Function to load music
-function loadMusic(index) {
-  const music = isShuffleMode ? shuffledOrder[index - 1] : originalOrder[index - 1];
-  musicName.innerText = music.name;
-  musicArtist.innerText = music.artist;
+  initialize() {
+    this.setupEventListeners();
+    this.loadPersistedState();
+    this.populateMusicList(this.originalOrder);
+    this.updatePlayingSong();
+  }
 
-  const { coverType = 'Images', src, type = 'jpg' } = music;
-  coverArea.innerHTML = ''; // Clear the cover area
+  setupEventListeners() {
+    // Control events
+    this.playPauseBtn.addEventListener("click", () => this.togglePlayPause());
+    this.prevBtn.addEventListener("click", () => this.changeMusic(-1));
+    this.nextBtn.addEventListener("click", () => this.changeMusic(1));
+    this.progressArea.addEventListener("click", (e) => this.handleProgressClick(e));
+    this.moreMusicBtn.addEventListener("click", () => this.toggleMusicList());
+    this.closeMoreMusicBtn.addEventListener("click", () => this.closeMusicList());
+    this.modeToggle.addEventListener("click", () => this.toggleDarkMode());
+    this.muteButton.addEventListener("click", () => this.handleMute());
+    this.repeatBtn.addEventListener("click", () => this.handleRepeat());
 
-  const mediaElement = coverType === 'video' 
-    ? createVideoElement(src, type) 
-    : createImageElement(src, type);
+    // Media events
+    this.mainAudio.addEventListener("timeupdate", (e) => this.updateProgress(e));
+    this.mainAudio.addEventListener("ended", () => this.handleSongEnd());
+    this.mainAudio.addEventListener("pause", () => this.handleAudioPause());
+    this.mainAudio.addEventListener("play", () => this.handleAudioPlay());
+    this.videoAd.addEventListener("ended", () => this.handleVideoEnd());
+  }
 
-  coverArea.appendChild(mediaElement);
-  mainAudio.src = `Audio/${src}.mp3`;
-  videoAd.src = `Videos/${src}.mp4`;
-}
-
-// Functions to create video and image elements
-function createVideoElement(src, type) {
-  const videoElement = document.createElement('video');
-  videoElement.src = `Videos/${src}.${type}`;
-  videoElement.controls = true;
-  videoElement.autoplay = true;
-  videoElement.loop = true;
-  return videoElement;
-}
-
-function createImageElement(src, type) {
-  const imgElement = document.createElement('img');
-  imgElement.src = `Images/${src}.${type}`;
-  imgElement.alt = musicName.innerText;
-  return imgElement;
-}
-
-// Functions to play and pause music
-function playMusic() {
-  wrapper.classList.add("paused");
-  playPauseBtn.querySelector("i").innerText = "pause";
-  mainAudio.play();
-  isMusicPaused = false;
-  localStorage.setItem("isMusicPaused", false);
-  toggleVideoDisplay(false);
-}
-
-function pauseMusic() {
-    wrapper.classList.remove("paused");
-    playPauseBtn.querySelector("i").innerText = "play_arrow";
-    mainAudio.pause();
-    isMusicPaused = true;
-    localStorage.setItem("isMusicPaused", true);
-    toggleVideoDisplay(true);
-  
-    // Mute the video audio when the music is paused
-    const video = document.getElementById("video");
-    if (video) {
-      video.muted = true; // Mute the video audio
+  loadPersistedState() {
+    const storedMusicIndex = localStorage.getItem(`musicIndex${this.suffix}`);
+    if (storedMusicIndex) {
+      this.musicIndex = parseInt(storedMusicIndex, 10);
+      this.loadMusic(this.musicIndex);
+      if (localStorage.getItem(`isMusicPaused${this.suffix}`) === "false") {
+        this.playMusic();
+      }
+    } else {
+      this.loadMusic(this.musicIndex);
     }
-}
-  
-
-function toggleVideoDisplay(show) {
-  const video = document.getElementById("video");
-  video.style.display = show ? "block" : "none";
-  if (show) {
-    video.play();
-  } else {
-    video.pause();
   }
-}
 
-// Function to change music
-function changeMusic(direction) {
-  if (isShuffleMode) {
-    musicIndex = (musicIndex + direction + shuffledOrder.length - 1) % shuffledOrder.length + 1;
-  } else {
-    musicIndex = (musicIndex + direction + originalOrder.length - 1) % originalOrder.length + 1;
-  }
-  
-  loadMusic(musicIndex);
-  playMusic();
-  muteVideo();
-}
-
-// Function to mute video
-function muteVideo() {
-  const video = document.getElementById("video");
-  if (video) {
-    video.muted = true; // Mute the video audio
-  }
-}
-
-// Play/Pause Button Event Listener
-playPauseBtn.addEventListener("click", () => {
-  isMusicPaused ? playMusic() : pauseMusic();
-});
-
-// Previous/Next Button Event Listeners
-prevBtn.addEventListener("click", () => changeMusic(-1));
-nextBtn.addEventListener("click", () => changeMusic(1));
-
-// Update progress bar
-mainAudio.addEventListener("timeupdate", (e) => {
-  const { currentTime, duration } = e.target;
-  progressBar.style.width = `${(currentTime / duration) * 100}%`;
-
-  const currentMin = Math.floor(currentTime / 60);
-  const currentSec = Math.floor(currentTime % 60).toString().padStart(2, "0");
-  wrapper.querySelector(".current-time").innerText = `${currentMin}:${currentSec}`;
-
-  if (!isNaN(duration)) {
-    const totalMin = Math.floor(duration / 60);
-    const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
-    wrapper.querySelector(".max-duration").innerText = `${totalMin}:${totalSec}`;
-}});
-
-// Progress bar click event
-progressArea.addEventListener("click", (e) => {
-  const clickedOffsetX = e.offsetX;
-  const songDuration = mainAudio.duration;
-  mainAudio.currentTime = (clickedOffsetX / progressArea.clientWidth) * songDuration;
-  playMusic();
-});
-
-// Repeat and Shuffle Button Event Listener
-const repeatBtn = wrapper.querySelector("#repeat-plist");
-repeatBtn.addEventListener("click", () => {
-  switch (repeatBtn.innerText) {
-    case "repeat":
-      repeatBtn.innerText = "repeat_one";
-      repeatBtn.setAttribute("title", "Song looped");
-      break;
-    case "repeat_one":
-      repeatBtn.innerText = "shuffle";
-      repeatBtn.setAttribute("title", "Playback shuffled");
-      isShuffleMode = true;
-
-      // Shuffle the order and update musicIndex
-      shuffledOrder = [...originalOrder].sort(() => Math.random() - 0.5);
-      musicIndex = 1; // Reset to first song in shuffled order
-      loadMusic(musicIndex);
-      populateMusicList(shuffledOrder); // Populate with shuffled order
-      playMusic();
-      break;
-    case "shuffle":
-      repeatBtn.innerText = "repeat";
-      repeatBtn.setAttribute("title", "Playlist looped");
-      isShuffleMode = false;
-
-      musicIndex = 1; // Reset to first song in original order
-      loadMusic(musicIndex);
-      populateMusicList(originalOrder); // Populate with original order
-      playMusic();
-      break;
-  }
-});
-
-// Handle end of the song
-mainAudio.addEventListener("ended", () => {
-  if (isShuffleMode) {
-    musicIndex = Math.floor(Math.random() * shuffledOrder.length) + 1;
-  } else {
-    musicIndex = (musicIndex % originalOrder.length) + 1; // Loop to next song
-  }
-  loadMusic(musicIndex);
-  playMusic();
-});
-
-// Show/Hide Music List
-moreMusicBtn.addEventListener("click", () => {
-  musicList.classList.toggle("show");
-});
-
-closeMoreMusicBtn.addEventListener("click", () => {
-  musicList.classList.remove("show");
-});
-
-// Populate music list
-const ulTag = wrapper.querySelector("ul");
-
-function populateMusicList(musicArray) {
-  ulTag.innerHTML = ""; // Clear the existing list
-  musicArray.forEach((music, i) => {
-    const liTag = document.createElement("li");
-    liTag.setAttribute("li-index", i + 1);
-
-    liTag.innerHTML = `
-      <div class="row">
-        <span>${music.name}</span>
-        <p>${music.artist}</p>
-      </div>
-      <span id="${music.src}" class="audio-duration">3:40</span>
-      <audio class="${music.src}" src="Audio/${music.src}.mp3"></audio>
-    `;
-
-    ulTag.appendChild(liTag);
-
-    const liAudioDurationTag = ulTag.querySelector(`#${music.src}`);
-    const liAudioTag = ulTag.querySelector(`.${music.src}`);
+  loadMusic(index) {
+    const music = this.isShuffleMode ? 
+      this.shuffledOrder[index - 1] : 
+      this.originalOrder[index - 1];
     
-    liAudioTag.addEventListener("loadeddata", () => {
-      const duration = liAudioTag.duration;
+    this.musicName.textContent = music.name;
+    this.musicArtist.textContent = music.artist;
+
+    const { coverType = 'Images', src, type = 'jpg' } = music;
+    this.coverArea.innerHTML = '';
+
+    const mediaElement = coverType === 'video' ?
+      this.createVideoElement(src, type) :
+      this.createImageElement(src, type);
+
+    this.coverArea.appendChild(mediaElement);
+    this.mainAudio.src = `Audio/${src}.mp3`;
+    this.videoAd.src = `${this.videoFolder}${src}.mp4`;
+    
+    localStorage.setItem(`musicIndex${this.suffix}`, index);
+    this.updatePlayingSong();
+  }
+
+  createVideoElement(src, type) {
+    const video = document.createElement('video');
+    video.src = `${this.videoFolder}${src}.${type}`;
+    video.controls = true;
+    video.autoplay = true;
+    video.loop = true;
+    return video;
+  }
+
+  createImageElement(src, type) {
+    const img = document.createElement('img');
+    img.src = `${this.imageFolder}${src}.${type}`;
+    img.alt = this.musicName.textContent;
+    return img;
+  }
+
+  togglePlayPause() {
+    this.isMusicPaused ? this.playMusic() : this.pauseMusic();
+  }
+
+  playMusic() {
+    this.wrapper.classList.add("paused");
+    this.playPauseBtn.querySelector("i").textContent = "pause";
+    this.mainAudio.play();
+    this.isMusicPaused = false;
+    localStorage.setItem(`isMusicPaused${this.suffix}`, false);
+    this.toggleVideoDisplay(false);
+  }
+
+  pauseMusic() {
+    this.wrapper.classList.remove("paused");
+    this.playPauseBtn.querySelector("i").textContent = "play_arrow";
+    this.mainAudio.pause();
+    this.isMusicPaused = true;
+    localStorage.setItem(`isMusicPaused${this.suffix}`, true);
+    this.toggleVideoDisplay(true);
+    this.muteVideo();
+  }
+
+  toggleVideoDisplay(show) {
+    this.videoAd.style.display = show ? "block" : "none";
+    show ? this.videoAd.play() : this.videoAd.pause();
+  }
+
+  muteVideo() {
+    this.videoAd.muted = true;
+  }
+
+  changeMusic(direction) {
+    if (this.isShuffleMode) {
+      this.musicIndex = (this.musicIndex + direction + this.shuffledOrder.length - 1) % 
+                        this.shuffledOrder.length + 1;
+    } else {
+      this.musicIndex = (this.musicIndex + direction + this.originalOrder.length - 1) % 
+                        this.originalOrder.length + 1;
+    }
+    this.loadMusic(this.musicIndex);
+    this.playMusic();
+  }
+
+  handleProgressClick(e) {
+    const clickedOffsetX = e.offsetX;
+    const songDuration = this.mainAudio.duration;
+    this.mainAudio.currentTime = (clickedOffsetX / this.progressArea.clientWidth) * songDuration;
+    this.playMusic();
+  }
+
+  updateProgress(e) {
+    const { currentTime, duration } = e.target;
+    this.progressBar.style.width = `${(currentTime / duration) * 100}%`;
+
+    const currentMin = Math.floor(currentTime / 60);
+    const currentSec = Math.floor(currentTime % 60).toString().padStart(2, "0");
+    this.wrapper.querySelector(".current-time").textContent = `${currentMin}:${currentSec}`;
+
+    if (!isNaN(duration)) {
       const totalMin = Math.floor(duration / 60);
       const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
-      liAudioDurationTag.innerText = `${totalMin}:${totalSec}`;
-      liAudioDurationTag.setAttribute("t-duration", `${totalMin}:${totalSec}`);
-    });
-
-    liTag.addEventListener("click", () => {
-      musicIndex = i + 1;
-      loadMusic(musicIndex);
-      playMusic();
-    });
-  });
-}
-
-// Update playing song in the list
-function updatePlayingSong() {
-  const allLiTags = ulTag.querySelectorAll("li");
-  allLiTags.forEach(liTag => {
-    const audioTag = liTag.querySelector(".audio-duration");
-    liTag.classList.toggle("playing", liTag.getAttribute("li-index") == musicIndex-1);
-    audioTag.innerText = liTag.classList.contains("playing") ? "Playing" : audioTag.getAttribute("t-duration");
-  });
-}
-
-// Dark mode toggle
-modeToggle.addEventListener("click", () => {
-    const isDarkMode = wrapper.classList.toggle("dark-mode");
-    document.getElementById("fontawesome-icons").classList.toggle("Dark");
-  
-    // Change background color based on the mode
-    if (isDarkMode) {
-      // Dark mode is active
-      document.body.style.backgroundColor = "white"; // Change to dark background
-      listcolourblack()
-    } else {
-      // Dark mode is inactive
-      document.body.style.backgroundColor = "black";
-      listcolourwhite() // Change to white background
-    }
-});
-  
-
-// Mute button
-let isMuted = false; // Track mute state
-
-muteButton.addEventListener("click", () => {
-  const video = document.getElementById("video");
-  const isAudioPlaying = !isMusicPaused; // Check if the audio is currently playing
-
-  if (video) {
-    if (isAudioPlaying && !isMuted) {
-      // If music is playing and the video is not muted, disable the button
-      muteButton.disabled = true; // Disable the mute button
-      return; // Exit the function early
-    }
-
-    video.muted = !video.muted; // Mute or unmute video
-    isMuted = video.muted; // Update mute state
-
-    // Toggle button classes instead of changing inner text
-    if (isMuted) {
-      muteButton.classList.add("muted"); // Add a class for muted state
-      muteButton.classList.remove("unmuted"); // Remove the unmuted class
-    } else {
-      muteButton.classList.remove("muted"); // Remove the muted class
-      muteButton.classList.add("unmuted"); // Add the unmuted class
+      this.wrapper.querySelector(".max-duration").textContent = `${totalMin}:${totalSec}`;
     }
   }
-});
 
-// Enable the mute button when music is paused
-mainAudio.addEventListener("pause", () => {
-  muteButton.disabled = false; // Enable the mute button when music is paused
-  pauseMusic();
-});
+  handleRepeat() {
+    switch (this.repeatBtn.textContent) {
+      case "repeat":
+        this.repeatBtn.textContent = "repeat_one";
+        this.repeatBtn.title = "Song looped";
+        break;
+      case "repeat_one":
+        this.repeatBtn.textContent = "shuffle";
+        this.repeatBtn.title = "Playback shuffled";
+        this.isShuffleMode = true;
+        this.shuffledOrder = [...this.originalOrder].sort(() => Math.random() - 0.5);
+        this.musicIndex = 1;
+        this.loadMusic(this.musicIndex);
+        this.populateMusicList(this.shuffledOrder);
+        this.playMusic();
+        break;
+      case "shuffle":
+        this.repeatBtn.textContent = "repeat";
+        this.repeatBtn.title = "Playlist looped";
+        this.isShuffleMode = false;
+        this.musicIndex = 1;
+        this.loadMusic(this.musicIndex);
+        this.populateMusicList(this.originalOrder);
+        this.playMusic();
+        break;
+    }
+  }
 
-mainAudio.addEventListener("play", () => {
-  muteButton.disabled = true; // Enable the mute button when music is paused
-  playMusic();
-});
+  handleSongEnd() {
+    if (this.isShuffleMode) {
+      this.musicIndex = Math.floor(Math.random() * this.shuffledOrder.length) + 1;
+    } else {
+      this.musicIndex = (this.musicIndex % this.originalOrder.length) + 1;
+    }
+    this.loadMusic(this.musicIndex);
+    this.playMusic();
+  }
 
-// Enable the button when the video ends
-video.addEventListener("ended", () => {
-  muteButton.disabled = false; // Enable the button when the video ends
-});
+  toggleMusicList() {
+    this.musicList.classList.toggle("show");
+  }
 
-function listcolourblack() {
-  const ul = document.querySelector('ul');
-  const listItems = ul.querySelectorAll('li');
-  listItems.forEach(item => {
-    item.style.color = 'white';
-    item.style.borderBottom = '3px solid white';
-  });
-  musicList.style.backgroundColor = "black";
-  closeMoreMusicBtn.style.color = "white"
-  header.style.color = "white"
+  closeMusicList() {
+    this.musicList.classList.remove("show");
+  }
+
+  populateMusicList(musicArray) {
+    this.ulTag.innerHTML = "";
+    musicArray.forEach((music, i) => {
+      const liTag = document.createElement("li");
+      liTag.setAttribute("li-index", i + 1);
+
+      liTag.innerHTML = `
+        <div class="row">
+          <span>${music.name}</span>
+          <p>${music.artist}</p>
+        </div>
+        <span id="${music.src}" class="audio-duration">3:40</span>
+        <audio class="${music.src}" src="Audio/${music.src}.mp3"></audio>
+      `;
+
+      this.ulTag.appendChild(liTag);
+      const liAudioTag = liTag.querySelector(`.${music.src}`);
+      
+      liAudioTag.addEventListener("loadeddata", () => {
+        const duration = liAudioTag.duration;
+        const totalMin = Math.floor(duration / 60);
+        const totalSec = Math.floor(duration % 60).toString().padStart(2, "0");
+        liTag.querySelector(".audio-duration").textContent = `${totalMin}:${totalSec}`;
+      });
+
+      liTag.addEventListener("click", () => {
+        this.musicIndex = i + 1;
+        this.loadMusic(this.musicIndex);
+        this.playMusic();
+      });
+    });
+  }
+
+  updatePlayingSong() {
+    const allLiTags = this.ulTag.querySelectorAll("li");
+    allLiTags.forEach(liTag => {
+      const audioTag = liTag.querySelector(".audio-duration");
+      const isPlaying = liTag.getAttribute("li-index") == this.musicIndex;
+      liTag.classList.toggle("playing", isPlaying);
+      audioTag.textContent = isPlaying ? "Playing" : audioTag.getAttribute("t-duration");
+    });
+  }
+
+  toggleDarkMode() {
+    const isDarkMode = this.wrapper.classList.toggle("dark-mode");
+    document.getElementById(`fontawesome-icons${this.suffix}`).classList.toggle("Dark");
+
+    if (isDarkMode) {
+      document.body.style.backgroundColor = "white";
+      this.listcolourblack();
+    } else {
+      document.body.style.backgroundColor = "black";
+      this.listcolourwhite();
+    }
+  }
+
+  handleMute() {
+    const isAudioPlaying = !this.isMusicPaused;
+    if (isAudioPlaying && !this.isMuted) {
+      this.muteButton.disabled = true;
+      return;
+    }
+
+    this.videoAd.muted = !this.videoAd.muted;
+    this.isMuted = this.videoAd.muted;
+    this.muteButton.classList.toggle("muted", this.isMuted);
+    this.muteButton.classList.toggle("unmuted", !this.isMuted);
+  }
+
+  handleAudioPause() {
+    this.muteButton.disabled = false;
+    this.pauseMusic();
+  }
+
+  handleAudioPlay() {
+    this.muteButton.disabled = true;
+    this.playMusic();
+  }
+
+  handleVideoEnd() {
+    this.muteButton.disabled = false;
+  }
+
+  listcolourblack() {
+    const listItems = this.ulTag.querySelectorAll("li");
+    listItems.forEach(item => {
+      item.style.color = 'white';
+      item.style.borderBottom = '3px solid white';
+    });
+    this.musicList.style.backgroundColor = "black";
+    this.closeMoreMusicBtn.style.color = "white";
+    this.header.style.color = "white";
+  }
+
+  listcolourwhite() {
+    const listItems = this.ulTag.querySelectorAll("li");
+    listItems.forEach(item => {
+      item.style.color = 'black';
+      item.style.borderBottom = '3px solid black';
+    });
+    this.musicList.style.backgroundColor = "white";
+    this.closeMoreMusicBtn.style.color = "black";
+    this.header.style.color = "black";
+  }
 }
 
-function listcolourwhite() {
-  const ul = document.querySelector('ul');
-  const listItems = ul.querySelectorAll('li');
-  listItems.forEach(item => {
-    item.style.color = 'black';
-    item.style.borderBottom = '3px solid black';
-  });
-  musicList.style.backgroundColor = "white";
-  closeMoreMusicBtn.style.color = "black"
-  header.style.color = "black"
-}
+// Initialize players when DOM loads
+document.addEventListener("DOMContentLoaded", () => {
+  window.homePlayer = new MusicPlayer();       // Original page
+  window.disguisePlayer = new MusicPlayer('2'); // Disguise page
+});
