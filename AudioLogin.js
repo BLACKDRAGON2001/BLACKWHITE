@@ -15,7 +15,7 @@ function clearInputFields() {
 
 // Hardcoded credentials for demonstration
 const correctUsername = "Admin";
-const correctPassword = "a";
+const correctPassword = "Red";
 const otherUsername = "Mangekyou";
 const otherPassword = "Black";
 const LoginTimeout = 50 * 60 * 1000; // 50 minutes in milliseconds
