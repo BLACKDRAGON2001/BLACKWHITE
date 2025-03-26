@@ -210,6 +210,20 @@ let allMusic = [
     },
 
     {
+        name: "Let the World Burn",
+        artist: "Chris Grey",
+        src: "LetTheWorldBurn",
+        coverType: "Images"
+    },
+
+    {
+        name: "Prada And Versace",
+        artist: "Chris Grey",
+        src: "PradaAndVersace",
+        coverType: "Images"
+    },
+
+    {
         name: "Shameless",
         artist: "Camilla Cabello",
         src: "Shameless",
