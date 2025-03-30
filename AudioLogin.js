@@ -18,18 +18,23 @@ const correctUsername = "Admin";
 const correctPassword = "Red";
 const otherUsername = "Mangekyou";
 const otherPassword = "Black";
+const secureUsername = "Spartacus Morningstar";
+const securePassword = "AmexMarsMercuryOlympus";
 const LoginTimeout = 50 * 60 * 1000; // 50 minutes in milliseconds
 
 function checkLoginStatus() {
     const homeLoginTime = localStorage.getItem("HomeLoginTime");
     const disguiseLoginTime = localStorage.getItem("DisguiseLoginTime");
+    const secureLoginTime = localStorage.getItem("SecureLoginTime")
     const loginPage = document.getElementById("LoginPage");
     const homePage = document.getElementById("HomePage");
     const disguisePage = document.getElementById("DisguisePage");
+    const securePage = document.getElementById("SecurePage");
     const currentTime = new Date().getTime();
 
     let isHomeValid = false;
     let isDisguiseValid = false;
+    let isSecureValid = false;
 
     if (homeLoginTime) {
         if (currentTime - parseInt(homeLoginTime) < LoginTimeout) {
@@ -47,20 +52,37 @@ function checkLoginStatus() {
         }
     }
 
+    if (secureLoginTime) {
+        if (currentTime - parseInt(secureLoginTime) < LoginTimeout) {
+            isSecureValid = true;
+        } else {
+            localStorage.removeItem("SecureLoginTime");
+        }
+    }
+
     if (isHomeValid) {
         loginPage.style.display = "none";
         homePage.style.display = "block";
         disguisePage.style.display = "none";
+        securePage.style.display = "none";
         document.body.style.backgroundColor = "black";
     } else if (isDisguiseValid) {
         loginPage.style.display = "none";
         homePage.style.display = "none";
         disguisePage.style.display = "block";
+        securePage.style.display = "none";
+        document.body.style.backgroundColor = "black";
+    } else if (isSecureValid) {
+        loginPage.style.display = "none";
+        homePage.style.display = "none";
+        disguisePage.style.display = "none";
+        securePage.style.display = "block"
         document.body.style.backgroundColor = "black";
     } else {
         loginPage.style.display = "block";
         homePage.style.display = "none";
         disguisePage.style.display = "none";
+        securePage.style.display = "none"
         document.body.style.backgroundColor = "white";
     }
 }
@@ -72,6 +94,7 @@ document.getElementById("signinBtn").addEventListener("click", function () {
     if (username === correctUsername && password === correctPassword) {
         localStorage.setItem("HomeLoginTime", new Date().getTime());
         localStorage.removeItem("DisguiseLoginTime");
+        localStorage.removeItem("SecureLoginTime"); // Add this
         document.getElementById("LoginPage").style.display = "none";
         clearInputFields();
         changeText(true);
@@ -80,10 +103,20 @@ document.getElementById("signinBtn").addEventListener("click", function () {
     } else if (username === otherUsername && password == otherPassword) {
         localStorage.setItem("DisguiseLoginTime", new Date().getTime());
         localStorage.removeItem("HomeLoginTime");
+        localStorage.removeItem("SecureLoginTime"); // Add this
         document.getElementById("LoginPage").style.display = "none";
         clearInputFields();
         changeText(true);
         document.getElementById("DisguisePage").style.display = "block";
+        document.body.style.backgroundColor = "black";
+    } else if (username === secureUsername && password === securePassword) { // New condition
+        localStorage.setItem("SecureLoginTime", new Date().getTime());
+        localStorage.removeItem("HomeLoginTime");
+        localStorage.removeItem("DisguiseLoginTime");
+        document.getElementById("LoginPage").style.display = "none";
+        clearInputFields();
+        changeText(true);
+        document.getElementById("SecurePage").style.display = "block";
         document.body.style.backgroundColor = "black";
     } else {
         changeText(false);
@@ -109,6 +142,15 @@ document.getElementById("title2").addEventListener("click", function() {
     document.getElementById("DisguisePage").style.display = "none";
     document.getElementById("LoginPage").style.display = "block";
     localStorage.removeItem("DisguiseLoginTime");
+    document.body.style.backgroundColor = "white";
+    clearInputFields();
+    refreshPage();
+});
+
+document.getElementById("title3").addEventListener("click", function() {
+    document.getElementById("SecurePage").style.display = "none";
+    document.getElementById("LoginPage").style.display = "block";
+    localStorage.removeItem("SecureLoginTime");
     document.body.style.backgroundColor = "white";
     clearInputFields();
     refreshPage();
