@@ -126,6 +126,13 @@ let allMusic = [
     },
 
     {
+        name: "Greedy",
+        artist: "Tate Mcrae",
+        src: "Greedy",
+        coverType: "Images"
+    },
+
+    {
         name: "Where We Started",
         artist: "NCS",
         src: "WhereWeStarted",
@@ -171,6 +178,13 @@ let allMusic = [
         name: "Mask Off",
         artist: "Future",
         src: "MaskOff",
+        coverType: "Images"
+    },
+
+    {
+        name: "Blinding Lights",
+        artist: "Weeknd",
+        src: "BlindingLights",
         coverType: "Images"
     },
 
