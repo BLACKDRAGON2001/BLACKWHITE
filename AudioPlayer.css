@@ -232,7 +232,7 @@ video {
 }
 .music-list ul{
   margin: 10px 0;
-  max-height: 260px;
+  max-height: 330px;
   overflow: auto;
 }
 .music-list ul::-webkit-scrollbar{

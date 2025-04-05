@@ -70,6 +70,20 @@ let allMusic = [
     },
 
     {
+        name: "Blackout",
+        artist: "Emilia",
+        src: "Blackout",
+        coverType: "Images"
+    },
+
+    {
+        name: "Despacito",
+        artist: "Justin Beiber and Louis Fonsi",
+        src: "Despacito",
+        coverType: "Images"
+    },
+
+    {
         name: "Slava Funk",
         artist: "MVSTERIOUS",
         src: "SlavaFunk",
@@ -238,6 +252,13 @@ let allMusic = [
     },
 
     {
+        name: "Bring Me Back To Life",
+        artist: "Chris Grey",
+        src: "BringMeBackToLife",
+        coverType: "Images"
+    },
+
+    {
         name: "Shameless",
         artist: "Camilla Cabello",
         src: "Shameless",
@@ -367,6 +388,13 @@ let allMusic = [
         name: "Arms Around You",
         artist: "Lil Pump and Maluma",
         src: "ArmsAroundYou",
+        coverType: "Images"
+    },
+
+    {
+        name: "Someone You Loved",
+        artist: "Louis Capaldi",
+        src: "SomeoneYouLoved",
         coverType: "Images"
     },
 

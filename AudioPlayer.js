@@ -25,19 +25,6 @@ document.getElementById("title2").addEventListener("click", function() {
   refreshPage();
 });
 
-document.getElementById("title3").addEventListener("click", function() {
-  // Clear SecurePage player state
-  localStorage.removeItem("musicIndex3");
-  localStorage.removeItem("isMusicPaused3");
-  // Existing logout logic
-  document.getElementById("SecurePage").style.display = "none";
-  document.getElementById("LoginPage").style.display = "block";
-  localStorage.removeItem("LoginTime");
-  document.body.style.backgroundColor = "white";
-  clearInputFields();
-  refreshPage();
-});
-
 class MusicPlayer {
   constructor(suffix = '') {
     if (!localStorage.getItem(`musicIndex${suffix}`)) {
@@ -45,17 +32,9 @@ class MusicPlayer {
       localStorage.setItem(`musicIndex${suffix}`, 1);
     }
     // Configure media folders based on page
-    this.imageFolder = 'Images/';  // Default
-    this.videoFolder = 'Videos/';  // Default
-    
-    if (suffix === '2') {
-      this.imageFolder = 'ImagesDisguise/';
-      this.videoFolder = 'VideosDisguise/';
-    } 
-    else if (suffix === '3') {
-      this.imageFolder = 'ImagesSecure/';
-      this.videoFolder = 'VideosSecure/';
-    }
+    this.suffix = suffix;
+    this.imageFolder = suffix === '2' ? 'ImagesDisguise/' : 'Images/';
+    this.videoFolder = suffix === '2' ? 'VideosDisguise/' : 'Videos/';
 
     // Element selectors
     this.wrapper = document.querySelector(`#wrapper${suffix}`);
@@ -239,13 +218,10 @@ class MusicPlayer {
       case "repeat":
         this.repeatBtn.textContent = "repeat_one";
         this.repeatBtn.title = "Song looped";
-        this.isLoopOneMode = true;
-        this.isShuffleMode = false;
         break;
       case "repeat_one":
         this.repeatBtn.textContent = "shuffle";
         this.repeatBtn.title = "Playback shuffled";
-        this.isLoopOneMode = false;
         this.isShuffleMode = true;
         this.shuffledOrder = [...this.originalOrder].sort(() => Math.random() - 0.5);
         this.musicIndex = 1;
@@ -256,7 +232,6 @@ class MusicPlayer {
       case "shuffle":
         this.repeatBtn.textContent = "repeat";
         this.repeatBtn.title = "Playlist looped";
-        this.isLoopOneMode = false;
         this.isShuffleMode = false;
         this.musicIndex = 1;
         this.loadMusic(this.musicIndex);
@@ -267,13 +242,6 @@ class MusicPlayer {
   }
 
   handleSongEnd() {
-    if (this.isLoopOneMode) {
-      // Restart current song
-      this.mainAudio.currentTime = 0;
-      this.playMusic();
-      return;
-    }
-  
     if (this.isShuffleMode) {
       this.musicIndex = Math.floor(Math.random() * this.shuffledOrder.length) + 1;
     } else {
@@ -401,5 +369,4 @@ class MusicPlayer {
 document.addEventListener("DOMContentLoaded", () => {
   window.homePlayer = new MusicPlayer();       // Original page
   window.disguisePlayer = new MusicPlayer('2'); // Disguise page
-  window.securePlayer = new MusicPlayer('3');
 });
