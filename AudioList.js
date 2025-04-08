@@ -196,6 +196,13 @@ let allMusic = [
     },
 
     {
+        name: "Trap Queen",
+        artist: "Harlem Fetty",
+        src: "TrapQueen",
+        coverType: "Images"
+    },
+
+    {
         name: "Blinding Lights",
         artist: "Weeknd",
         src: "BlindingLights",
@@ -259,6 +266,34 @@ let allMusic = [
     },
 
     {
+        name: "Gemini",
+        artist: "Chris Grey",
+        src: "Gemini",
+        coverType: "Images"
+    },
+
+    {
+        name: "Us Against The World",
+        artist: "Chris Grey",
+        src: "UsAgainstTheWorld",
+        coverType: "Images"
+    },
+
+    {
+        name: "Haunted",
+        artist: "Chris Grey",
+        src: "Haunted",
+        coverType: "Images"
+    },
+
+    {
+        name: "Taste Of The Divine",
+        artist: "Chris Grey",
+        src: "TasteOfTheDivine",
+        coverType: "Images"
+    },
+
+    {
         name: "Shameless",
         artist: "Camilla Cabello",
         src: "Shameless",
@@ -297,6 +332,13 @@ let allMusic = [
         name: "Who I Am",
         artist: "Alan Walker",
         src: "WhoIAm",
+        coverType: "Images"
+    },
+
+    {
+        name: "Ninao",
+        artist: "GIMS",
+        src: "Ninao",
         coverType: "Images"
     },
 
