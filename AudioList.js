@@ -280,9 +280,37 @@ let allMusic = [
     },
 
     {
+        name: "Always Been You",
+        artist: "Chris Grey",
+        src: "AlwaysBeenYou",
+        coverType: "Images"
+    },
+
+    {
         name: "Haunted",
         artist: "Chris Grey",
         src: "Haunted",
+        coverType: "Images"
+    },
+
+    {
+        name: "Makeup",
+        artist: "Chris Grey",
+        src: "Makeup",
+        coverType: "Images"
+    },
+
+    {
+        name: "Mine",
+        artist: "Allegra Jordyn",
+        src: "Mine",
+        coverType: "Images"
+    },
+
+    {
+        name: "Last Love",
+        artist: "Allegra Jordyn",
+        src: "LastLove",
         coverType: "Images"
     },
 
