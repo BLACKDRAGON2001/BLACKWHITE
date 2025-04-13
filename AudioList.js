@@ -266,6 +266,13 @@ let allMusic = [
     },
 
     {
+        name: "The Machine",
+        artist: "Reed Wonder and Aurora Olivas",
+        src: "TheMachine",
+        coverType: "Images"
+    },
+
+    {
         name: "Gemini",
         artist: "Chris Grey",
         src: "Gemini",
