@@ -119,6 +119,20 @@ let allMusic = [
     },
 
     {
+        name: "No Fear",
+        artist: "Andromeda",
+        src: "NoFear",
+        coverType: "Images"
+    },
+
+    {
+        name: "Akuma No Ko",
+        artist: "Ai Higuchi",
+        src: "AkumaNoKo",
+        coverType: "Images"
+    },
+
+    {
         name: "Empire",
         artist: "Ogryzek",
         src: "Empire",
@@ -129,6 +143,13 @@ let allMusic = [
         name: "Glory",
         artist: "Ogryzek",
         src: "Glory",
+        coverType: "Images"
+    },
+
+    {
+        name: "Lost Astronaut",
+        artist: "Pinky Smash",
+        src: "LostAstronaut",
         coverType: "Images"
     },
 
@@ -322,9 +343,170 @@ let allMusic = [
     },
 
     {
+        name: "Corpse Bride",
+        artist: "Limi",
+        src: "CorpseBride",
+        coverType: "Images"
+    },
+
+    {
         name: "Taste Of The Divine",
-        artist: "Chris Grey",
+        artist: "Shaker",
         src: "TasteOfTheDivine",
+        coverType: "Images"
+    },
+
+    {
+        name: "Nowhere",
+        artist: "Shaker",
+        src: "Nowhere",
+        coverType: "Images"
+    },
+
+    {
+        name: "In The Dark",
+        artist: "Shaker",
+        src: "InTheDark",
+        coverType: "Images"
+    },
+
+    {
+        name: "Blackberry Ice",
+        artist: "Shaker",
+        src: "BlackberryIce",
+        coverType: "Images"
+    },
+
+    {
+        name: "Pretty Lies",
+        artist: "Shaker",
+        src: "PrettyLies",
+        coverType: "Images"
+    },
+
+    {
+        name: "Played To Lose",
+        artist: "Shaker",
+        src: "PlayedToLose",
+        coverType: "Images"
+    },
+
+    {
+        name: "Body",
+        artist: "Shaker",
+        src: "Body",
+        coverType: "Images"
+    },
+
+    {
+        name: "Hold You Down",
+        artist: "Shaker",
+        src: "HoldYouDown",
+        coverType: "Images"
+    },
+
+    {
+        name: "Control",
+        artist: "Shaker",
+        src: "Control",
+        coverType: "Images"
+    },
+
+    {
+        name: "Leave",
+        artist: "Shaker",
+        src: "Leave",
+        coverType: "Images"
+    },
+
+    {
+        name: "In My Veins",
+        artist: "Shaker",
+        src: "InMyVeins",
+        coverType: "Images"
+    },
+
+    {
+        name: "Cinderella",
+        artist: "Limi",
+        src: "Cinderella",
+        coverType: "Images"
+    },
+
+    {
+        name: "Dangerous",
+        artist: "Limi",
+        src: "Dangerous",
+        coverType: "Images"
+    },
+
+    {
+        name: "Summertime",
+        artist: "Limi",
+        src: "Summertime",
+        coverType: "Images"
+    },
+
+    {
+        name: "Hiding",
+        artist: "Limi",
+        src: "Hiding",
+        coverType: "Images"
+    },
+
+    {
+        name: "If I",
+        artist: "Limi",
+        src: "IfI",
+        coverType: "Images"
+    },
+
+    {
+        name: "Marilyn Monroe",
+        artist: "Limi",
+        src: "MarilynMonroe",
+        coverType: "Images"
+    },
+
+    {
+        name: "Obsessed",
+        artist: "Limi",
+        src: "Obsessed",
+        coverType: "Images"
+    },
+
+    {
+        name: "Broken Line",
+        artist: "Limi",
+        src: "BrokenLine",
+        coverType: "Images"
+    },
+
+    {
+        name: "Colors",
+        artist: "Limi",
+        src: "Colors",
+        coverType: "Images"
+    },
+
+    {
+        name: "Interlude",
+        artist: "Limi",
+        src: "Interlude",
+        coverType: "Images"
+    },
+
+    {
+        name: "Distance",
+        artist: "Limi",
+        src: "Distance",
+        coverType: "Images"
+    },
+
+    {
+        name: "Cuts",
+        artist: "Limi",
+        src: "Cuts",
         coverType: "Images"
     },
 
