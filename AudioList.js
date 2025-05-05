@@ -70,6 +70,13 @@ let allMusic = [
     },
 
     {
+        name: "Touch",
+        artist: "Katseye",
+        src: "Touch",
+        coverType: "Images"
+    },
+
+    {
         name: "Blackout",
         artist: "Emilia",
         src: "Blackout",
@@ -129,6 +136,13 @@ let allMusic = [
         name: "Akuma No Ko",
         artist: "Ai Higuchi",
         src: "AkumaNoKo",
+        coverType: "Images"
+    },
+
+    {
+        name: "Ichirin No Hana",
+        artist: "High and Mighty Color",
+        src: "IchirinNoHana",
         coverType: "Images"
     },
 
@@ -344,7 +358,7 @@ let allMusic = [
 
     {
         name: "Corpse Bride",
-        artist: "Limi",
+        artist: "Allegra Jordyn",
         src: "CorpseBride",
         coverType: "Images"
     },
@@ -437,6 +451,13 @@ let allMusic = [
         name: "Dangerous",
         artist: "Limi",
         src: "Dangerous",
+        coverType: "Images"
+    },
+
+    {
+        name: "Saint Laurent",
+        artist: "Limi",
+        src: "SaintLaurent",
         coverType: "Images"
     },
 
