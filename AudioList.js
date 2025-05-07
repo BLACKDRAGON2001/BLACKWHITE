@@ -441,6 +441,13 @@ let allMusic = [
     },
 
     {
+        name: "2/22",
+        artist: "Shaker and Limi",
+        src: "TwoTwoTwo",
+        coverType: "Images"
+    },
+
+    {
         name: "Cinderella",
         artist: "Limi",
         src: "Cinderella",
@@ -458,6 +465,13 @@ let allMusic = [
         name: "Saint Laurent",
         artist: "Limi",
         src: "SaintLaurent",
+        coverType: "Images"
+    },
+
+    {
+        name: "The Best I Ever Had",
+        artist: "Limi",
+        src: "TheBestIEverHad",
         coverType: "Images"
     },
 
