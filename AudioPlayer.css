@@ -306,6 +306,17 @@ ul li.playing{
   position: relative;
 }
 
+.bigger-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 370px;
+  display: none; /* Hidden by default */
+  transform: translate(0%, 0%);
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
 .overlay-video {
   position: absolute;
   top: 0;

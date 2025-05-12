@@ -172,6 +172,7 @@ class MusicPlayer {
 
   toggleVideoDisplay(show) {
     this.videoAd.style.display = show ? "block" : "none";
+    this.videoAd.classList.replace("bigger-video", "overlay-video");
     show ? this.videoAd.play() : this.videoAd.pause();
   }
 
@@ -363,6 +364,30 @@ class MusicPlayer {
     this.closeMoreMusicBtn.style.color = "black";
     this.header.style.color = "black";
   }
+}
+
+function handleSize() {
+  const sizer = document.getElementById("video");
+
+  sizer.addEventListener("click", () => {
+      if (sizer.classList.contains("overlay-video")) {
+      sizer.classList.replace("overlay-video", "bigger-video");
+      } else {
+      sizer.classList.replace("bigger-video", "overlay-video");
+      }
+  });
+}
+
+function handleSize() {
+  const sizer = document.getElementById("video");
+
+  sizer.addEventListener("click", () => {
+      if (sizer.classList.contains("overlay-video")) {
+      sizer.classList.replace("overlay-video", "bigger-video");
+      } else {
+      sizer.classList.replace("bigger-video", "overlay-video");
+      }
+  });
 }
 
 // Initialize players when DOM loads
