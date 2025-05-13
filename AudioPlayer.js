@@ -170,6 +170,11 @@ class MusicPlayer {
     this.muteVideo();
   }
 
+  resetVideoSize() {
+    this.videoAd.classList.remove("bigger-video");
+    this.videoAd.classList.add("overlay-video");
+  }  
+
   toggleVideoDisplay(show) {
     this.videoAd.style.display = show ? "block" : "none";
     show ? this.videoAd.play() : this.videoAd.pause();
@@ -189,6 +194,7 @@ class MusicPlayer {
     }
     this.loadMusic(this.musicIndex);
     this.playMusic();
+    this.resetVideoSize();
   }
 
   handleProgressClick(e) {
