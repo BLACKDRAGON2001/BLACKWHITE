@@ -12,6 +12,10 @@
   user-select: none;
 }
 
+html, body{
+  touch-action: manipulation;
+}
+
 body{
   display: flex;
 

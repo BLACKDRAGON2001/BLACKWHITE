@@ -172,7 +172,6 @@ class MusicPlayer {
 
   toggleVideoDisplay(show) {
     this.videoAd.style.display = show ? "block" : "none";
-    this.videoAd.classList.replace("bigger-video", "overlay-video");
     show ? this.videoAd.play() : this.videoAd.pause();
   }
 
@@ -381,12 +380,14 @@ function handleSize() {
 function handleSize() {
   const sizer = document.getElementById("video");
 
+  // Ensure one of the classes is set initially
+  if (!sizer.classList.contains("overlay-video") && !sizer.classList.contains("bigger-video")) {
+    sizer.classList.add("overlay-video");
+  }
+
   sizer.addEventListener("click", () => {
-      if (sizer.classList.contains("overlay-video")) {
-      sizer.classList.replace("overlay-video", "bigger-video");
-      } else {
-      sizer.classList.replace("bigger-video", "overlay-video");
-      }
+    sizer.classList.toggle("overlay-video");
+    sizer.classList.toggle("bigger-video");
   });
 }
 
@@ -394,4 +395,5 @@ function handleSize() {
 document.addEventListener("DOMContentLoaded", () => {
   window.homePlayer = new MusicPlayer();       // Original page
   window.disguisePlayer = new MusicPlayer('2'); // Disguise page
+  handleSize();
 });
