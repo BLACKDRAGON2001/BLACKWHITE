@@ -189,9 +189,23 @@ let allMusic = [
     },
 
     {
+        name: "Seven Rings",
+        artist: "Ariana Grande",
+        src: "SevenRings",
+        coverType: "Images"
+    },
+
+    {
         name: "Diamonds",
         artist: "Rihanna",
         src: "Diamonds",
+        coverType: "Images"
+    },
+
+    {
+        name: "Make You Mine",
+        artist: "Madison Beer",
+        src: "MakeYouMine",
         coverType: "Images"
     },
 
@@ -570,6 +584,13 @@ let allMusic = [
         name: "Habibi",
         artist: "Richy Rich",
         src: "Habibi",
+        coverType: "Images"
+    },
+
+    {
+        name: "KAMNH",
+        artist: "Emin and Jony",
+        src: "Kamnh",
         coverType: "Images"
     },
 

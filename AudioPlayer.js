@@ -248,14 +248,25 @@ class MusicPlayer {
   }
 
   handleSongEnd() {
-    if (this.isShuffleMode) {
+    const mode = this.repeatBtn.textContent;
+  
+    if (mode === "repeat_one") {
+      // Replay the same song
+      this.mainAudio.currentTime = 0;
+      this.playMusic();
+    } else if (this.isShuffleMode || mode === "shuffle") {
+      // Shuffle to a random song
       this.musicIndex = Math.floor(Math.random() * this.shuffledOrder.length) + 1;
+      this.loadMusic(this.musicIndex);
+      this.playMusic();
     } else {
+      // Go to next song normally
       this.musicIndex = (this.musicIndex % this.originalOrder.length) + 1;
+      this.loadMusic(this.musicIndex);
+      this.playMusic();
     }
-    this.loadMusic(this.musicIndex);
-    this.playMusic();
   }
+  
 
   toggleMusicList() {
     this.musicList.classList.toggle("show");
@@ -303,10 +314,16 @@ class MusicPlayer {
     allLiTags.forEach(liTag => {
       const audioTag = liTag.querySelector(".audio-duration");
       const isPlaying = liTag.getAttribute("li-index") == this.musicIndex;
+  
+      if (!audioTag.hasAttribute("t-duration")) {
+        audioTag.setAttribute("t-duration", audioTag.textContent);
+      }
+  
       liTag.classList.toggle("playing", isPlaying);
       audioTag.textContent = isPlaying ? "Playing" : audioTag.getAttribute("t-duration");
     });
   }
+  
 
   toggleDarkMode() {
     const isDarkMode = this.wrapper.classList.toggle("dark-mode");
