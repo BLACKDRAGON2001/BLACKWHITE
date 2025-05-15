@@ -280,9 +280,23 @@ let allMusic = [
     },
 
     {
+        name: "I Wouldn't Mind",
+        artist: "Maggie Lindemann",
+        src: "IWouldntMind",
+        coverType: "Images"
+    },
+
+    {
         name: "Impossible",
         artist: "James Arthur",
         src: "Impossible",
+        coverType: "Images"
+    },
+
+    {
+        name: "Another Love",
+        artist: "Tom Odell",
+        src: "AnotherLove",
         coverType: "Images"
     },
 
@@ -374,6 +388,13 @@ let allMusic = [
         name: "Corpse Bride",
         artist: "Allegra Jordyn",
         src: "CorpseBride",
+        coverType: "Images"
+    },
+
+    {
+        name: "Eternally",
+        artist: "Allegra Jordyn",
+        src: "Eternally",
         coverType: "Images"
     },
 
