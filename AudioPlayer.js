@@ -65,6 +65,7 @@ class MusicPlayer {
     this.shuffledOrder = [];
     this.isMuted = false;
 
+    this.controlsToggledManually = false;
     this.initialize();
   }
 
@@ -93,6 +94,8 @@ class MusicPlayer {
     this.mainAudio.addEventListener("pause", () => this.handleAudioPause());
     this.mainAudio.addEventListener("play", () => this.handleAudioPlay());
     this.videoAd.addEventListener("ended", () => this.handleVideoEnd());
+
+    this.musicName.addEventListener("click", () => this.toggleVideoControls());
   }
 
   loadPersistedState() {
@@ -107,6 +110,18 @@ class MusicPlayer {
       this.loadMusic(this.musicIndex);
     }
   }
+
+  toggleVideoControls() {
+    if (!this.videoAd.classList.contains("bigger-video")) return;
+  
+    this.controlsToggledManually = !this.controlsToggledManually;
+    this.videoAd.controls = this.controlsToggledManually;
+  
+    if (!this.controlsToggledManually && this.mainAudio.paused) {
+      this.videoAd.play()
+    }
+  }
+    
 
   loadMusic(index) {
     const music = this.isShuffleMode ? 
@@ -158,6 +173,7 @@ class MusicPlayer {
     this.isMusicPaused = false;
     localStorage.setItem(`isMusicPaused${this.suffix}`, false);
     this.toggleVideoDisplay(false);
+    this.resetVideoSize(); // Reset size and controls
   }
 
   pauseMusic() {
@@ -168,11 +184,15 @@ class MusicPlayer {
     localStorage.setItem(`isMusicPaused${this.suffix}`, true);
     this.toggleVideoDisplay(true);
     this.muteVideo();
+    this.resetVideoSize(); // Reset size and controls
   }
 
   resetVideoSize() {
     this.videoAd.classList.remove("bigger-video");
     this.videoAd.classList.add("overlay-video");
+    this.videoAd.controls = false;
+    this.controlsToggledManually = false;
+    this.videoAd.loop = true;
   }  
 
   toggleVideoDisplay(show) {
@@ -403,12 +423,16 @@ function handleSize() {
 function handleSize() {
   const sizer = document.getElementById("video");
 
-  // Ensure one of the classes is set initially
   if (!sizer.classList.contains("overlay-video") && !sizer.classList.contains("bigger-video")) {
     sizer.classList.add("overlay-video");
   }
 
   sizer.addEventListener("click", () => {
+    const player = window.homePlayer || window.disguisePlayer;
+    
+    // Prevent size toggle if controls are shown by user
+    if (sizer.classList.contains("bigger-video") && player.controlsToggledManually) return;
+
     sizer.classList.toggle("overlay-video");
     sizer.classList.toggle("bigger-video");
   });
