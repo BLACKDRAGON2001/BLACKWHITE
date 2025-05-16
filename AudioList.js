@@ -182,6 +182,20 @@ let allMusic = [
     },
 
     {
+        name: "It's Ok I'm Ok",
+        artist: "Tate Mcrae",
+        src: "ItsOkImOk",
+        coverType: "Images"
+    },
+
+    {
+        name: "Nonsense",
+        artist: "Sabrina Carpenter",
+        src: "Nonsense",
+        coverType: "Images"
+    },
+
+    {
         name: "Where We Started",
         artist: "NCS",
         src: "WhereWeStarted",
@@ -248,6 +262,13 @@ let allMusic = [
         name: "Trap Queen",
         artist: "Harlem Fetty",
         src: "TrapQueen",
+        coverType: "Images"
+    },
+
+    {
+        name: "Chammak Challo",
+        artist: "Akon",
+        src: "ChammakChallo",
         coverType: "Images"
     },
 
@@ -595,6 +616,13 @@ let allMusic = [
     },
 
     {
+        name: "Snapchat Beat",
+        artist: "Sickick",
+        src: "SnapchatBeat",
+        coverType: "Images"
+    },
+
+    {
         name: "Killa Killa",
         artist: "KSI and Aiyana",
         src: "KillaKilla",
@@ -612,6 +640,27 @@ let allMusic = [
         name: "KAMNH",
         artist: "Emin and Jony",
         src: "Kamnh",
+        coverType: "Images"
+    },
+
+    {
+        name: "Moonlit Night",
+        artist: "Emin and Jony",
+        src: "MoonlitNight",
+        coverType: "Images"
+    },
+
+    {
+        name: "подписи",
+        artist: "Jony",
+        src: "Captions",
+        coverType: "Images"
+    },
+
+    {
+        name: "взрослая жизнь",
+        artist: "Rauf and Faik",
+        src: "Adulthood",
         coverType: "Images"
     },
 
@@ -724,6 +773,20 @@ let allMusic = [
         name: "Arms Around You",
         artist: "Lil Pump and Maluma",
         src: "ArmsAroundYou",
+        coverType: "Images"
+    },
+
+    {
+        name: "Dancin",
+        artist: "KRONO",
+        src: "Dancin",
+        coverType: "Images"
+    },
+
+    {
+        name: "Under The Influence",
+        artist: "Chris Brown",
+        src: "UnderTheInfluence",
         coverType: "Images"
     },
 
