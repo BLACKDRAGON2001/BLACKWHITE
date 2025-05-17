@@ -665,6 +665,20 @@ let allMusic = [
     },
 
     {
+        name: "La La La",
+        artist: "Naughty Boy",
+        src: "LaLaLa",
+        coverType: "Images"
+    },
+
+    {
+        name: "Ta Ta Ta",
+        artist: "Byanni and Jason Derulo",
+        src: "TaTaTa",
+        coverType: "Images"
+    },
+
+    {
         name: "The Drum",
         artist: "Alan Walker",
         src: "TheDrum",
