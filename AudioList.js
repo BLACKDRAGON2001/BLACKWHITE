@@ -147,6 +147,13 @@ let allMusic = [
     },
 
     {
+        name: "Glassy Sky",
+        artist: "東京喰種 -トーキョーグール-",
+        src: "GlassySky",
+        coverType: "Images"
+    },
+
+    {
         name: "Empire",
         artist: "Ogryzek",
         src: "Empire",
@@ -665,6 +672,13 @@ let allMusic = [
     },
 
     {
+        name: "Без тебя я не я",
+        artist: "JONY HammAli and Navai",
+        src: "WithoutYouImNotMe",
+        coverType: "Images"
+    },
+
+    {
         name: "La La La",
         artist: "Naughty Boy",
         src: "LaLaLa",
@@ -780,6 +794,27 @@ let allMusic = [
         name: "Unstoppable",
         artist: "Sia",
         src: "Unstoppable",
+        coverType: "Images"
+    },
+
+    {
+        name: "Dna",
+        artist: "BTS",
+        src: "Dna",
+        coverType: "Images"
+    },
+
+    {
+        name: "Butter",
+        artist: "BTS",
+        src: "Butter",
+        coverType: "Images"
+    },
+
+    {
+        name: "Dynamite",
+        artist: "BTS",
+        src: "BtsDynamite",
         coverType: "Images"
     },
 
